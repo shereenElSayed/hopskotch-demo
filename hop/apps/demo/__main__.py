@@ -4,7 +4,24 @@ import argparse
 import signal
 
 from . import __version__
+from . import example
 
+
+def append_subparser(subparser, cmd, func):
+
+    assert func.__doc__, "empty docstring: {}".format(func)
+    help_ = func.__doc__.split("\n")[0].lower().strip(".")
+    desc = func.__doc__.strip()
+
+    parser = subparser.add_parser(
+        cmd,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        help=help_,
+        description=desc,
+    )
+
+    parser.set_defaults(func=func)
+    return parser
 
 def _set_up_parser():
     """Set up parser for scimma app entry point.
@@ -18,7 +35,7 @@ def _set_up_parser():
     # my arguments here
     subparser = parser.add_subparsers(
     title="Commands",
-    metavar="subscribe --broker-url <Broker_URL> -F <CONFIGURATION_FILE>",
+    metavar="subscribe -F <CONFIGURATION_FILE> -E <EMAIL>",
     dest="cmd",
     )
     subparser.required = True
@@ -44,7 +61,7 @@ def _set_up_cli():
 
 def main():
     args = _set_up_cli()
-    # args.func(args)
+    args.func(args)
     # do stuff here
 
 
