@@ -51,7 +51,7 @@ def send_email(message, receivers):
       None
     """
     gmail_user = 'hopskotch.demo@gmail.com'
-    gmail_password = 'bntcfycgqgzgzysk'
+    gmail_password = '123123123'
 
     sent_from = gmail_user
     to = receivers
